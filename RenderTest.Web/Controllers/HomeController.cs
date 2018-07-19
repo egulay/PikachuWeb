@@ -34,7 +34,7 @@ namespace RenderTest.Web.Controllers
 
             if (gridFilters != null)
             {
-                Parallel.ForEach(gridFilters.Conditions, (condition) =>
+                Parallel.ForEach(gridFilters.Conditions, condition =>
                 {
                     var comparison = condition.Comparison;
                     var field = condition.Field;
