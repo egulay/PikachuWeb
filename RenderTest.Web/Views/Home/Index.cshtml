@@ -1,0 +1,76 @@
+﻿@using Ext.Net;
+@using Ext.Net.MVC;
+
+@(Html.X().ResourceManager())
+
+@(
+       Html.X().Viewport()
+        .Layout(LayoutType.Fit)
+        .Items(
+            Html.X().Panel()
+            .Layout(LayoutType.Fit)
+            .Items(
+                Html.X().GridPanel()
+                .Layout(LayoutType.Fit)
+                .Icon(Icon.Database)
+                .DisableSelection(true)
+                .Title("Render Test Data - Grid View")
+                .Store(
+                    Html.X().StoreForModel()
+                    .Proxy(
+                        Html.X().AjaxProxy()
+                        .Url(Url.Action("ReadTestData"))
+                        .ActionMethods(actions =>
+                        {
+                            actions.Read = HttpMethod.POST;
+                        })
+                        .Reader(
+                            Html.X().JsonReader().RootProperty("data")
+                        )
+                    )
+                    .RemoteSort(true)
+                    .RemoteFilter(true)
+                    .PageSize(60)
+                )
+                .ColumnModel(
+                    Html.X().RowNumbererColumn().Width(50),
+                    Html.X().Column().Text("Id").DataIndex("Id"),
+                    Html.X().Column()
+                        .Text("String Field")
+                        .DataIndex("MyStringField")
+                        .Width(150)
+                        .Filter(Html.X().StringFilter()),
+                    Html.X().DateColumn()
+                        .Text("Date Field")
+                        .DataIndex("MyDateField")
+                        .Width(150)
+                        .Filter(Html.X().DateFilter()),
+                    Html.X().BooleanColumn()
+                        .Text("Bool Field")
+                        .DataIndex("MyBoolField")
+                        .Width(150)
+                        .TrueText("Yes")
+                        .FalseText("No")
+                        .Filter(Html.X().BooleanFilter()),
+                    Html.X().NumberColumn()
+                        .Text("Integer Field")
+                        .DataIndex("MyIntField")
+                        .Width(150)
+                        .Filter(Html.X().NumberFilter()),
+                    Html.X().NumberColumn()
+                        .Text("Money Field")
+                        .DataIndex("MyMoneyField")
+                        .Width(150)
+                        .Filter(Html.X().NumberFilter())
+                )
+                .Plugins(
+                    Html.X().GridFilters()
+                )
+                .BottomBar(
+                    Html.X().PagingToolbar()
+                    .EmptyMsg("No data to display")
+                    .InputItemWidth(100)
+                )
+            )
+        )
+)
